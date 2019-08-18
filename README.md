@@ -1,5 +1,8 @@
 # pixel-editor
 
+[![Build Status](https://travis-ci.org/gladielf/pixel-editor.svg?branch=master)](https://travis-ci.org/gladielf/pixel-editor)
+[![Coverage Status](https://coveralls.io/repos/github/gladielf/pixel-editor/badge.svg?branch=master)](https://coveralls.io/github/gladielf/pixel-editor?branch=master)
+
 ## Project setup
 ```
 npm install
