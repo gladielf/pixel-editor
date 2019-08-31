@@ -11,11 +11,15 @@
             label
                 input(v-model.number="rows", type="number", min="1", max="40")
                 span.pe-config__label Nº filas
+            label
+                input(v-model.number="color", type="color")
+                span.pe-config__label Color
         .pe-editor
             pe-layout(
                 :pixelSide="pixelSide",
                 :rows="rows",
-                :cols="cols"
+                :cols="cols",
+                :color="color"
             )
 </template>
 
@@ -28,9 +32,10 @@ export default {
   },
   data () {
     return {
-      pixelSide: 1,
+      pixelSide: 2,
       rows: 10,
-      cols: 10
+      cols: 10,
+      color: '#000000'
     }
   }
 }

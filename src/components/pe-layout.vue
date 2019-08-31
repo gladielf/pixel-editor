@@ -2,7 +2,9 @@
     .pe-layout
         pe-pixel(v-for="(pixel, index) in totalPixels",
             :key="`pe-pixel-${index}`",
-            :pixelSide="pixelSide")
+            :color="pixelArray[index]",
+            :pixelSide="pixelSide",
+            @click.native="setColor(index)")
 </template>
 
 <script>
@@ -13,6 +15,7 @@ export default {
     PePixel
   },
   props: {
+    color: String,
     pixelSide: {
       type: Number,
       default: 1
@@ -26,15 +29,25 @@ export default {
       default: 10
     }
   },
+  data () {
+    return {
+      pixelArray: []
+    }
+  },
   watch: {
     pixelSide () {
       this.calculateLayoutWidth()
+      this.setPixelArray()
     },
     rows () {
       this.calculateLayoutWidth()
+      this.resetPixelArray()
+      this.setPixelArray()
     },
     cols () {
       this.calculateLayoutWidth()
+      this.resetPixelArray()
+      this.setPixelArray()
     }
   },
   computed: {
@@ -46,9 +59,19 @@ export default {
     calculateLayoutWidth () {
       const width = this.cols * this.pixelSide
       this.$el.style.setProperty('--layout-width', `${width}em`)
+    },
+    setColor (index) {
+      this.pixelArray.splice(index, 1, this.color)
+    },
+    setPixelArray () {
+      this.pixelArray.length = this.totalPixels
+    },
+    resetPixelArray () {
+      this.pixelArray = []
     }
   },
   mounted () {
+    this.setPixelArray()
     this.calculateLayoutWidth()
   }
 }

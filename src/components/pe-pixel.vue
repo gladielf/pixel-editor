@@ -6,6 +6,7 @@
 export default {
   name: 'pe-pixel',
   props: {
+    color: String,
     pixelSide: {
       type: Number,
       default: 1
@@ -14,11 +15,17 @@ export default {
   watch: {
     pixelSide () {
       this.setPixelSide()
+    },
+    color () {
+      this.setPixelColor()
     }
   },
   methods: {
     setPixelSide () {
       this.$el.style.setProperty('--pixel-side', `${this.pixelSide}em`)
+    },
+    setPixelColor () {
+      this.$el.style.setProperty('--pixel-color', `${this.color}`)
     }
   },
   mounted () {
@@ -32,4 +39,5 @@ export default {
         height: var(--pixel-side)
         width: var(--pixel-side)
         box-shadow: inset 0 0 0 1px black
+        background-color: var(--pixel-color)
 </style>
