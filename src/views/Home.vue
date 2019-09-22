@@ -14,12 +14,17 @@
             label
                 input(v-model.number="color", type="color")
                 span.pe-config__label Color
+            label
+                input(v-model="reset", type="checkbox")
+                span.pe-config__label Reset
         .pe-editor
             pe-layout(
                 :pixelSide="pixelSide",
                 :rows="rows",
                 :cols="cols",
-                :color="color"
+                :color="color",
+                :reset="reset",
+                @layout-reset="uncheckReset"
             )
 </template>
 
@@ -32,10 +37,16 @@ export default {
   },
   data () {
     return {
+      reset: false,
       pixelSide: 2,
       rows: 10,
       cols: 10,
       color: '#000000'
+    }
+  },
+  methods: {
+    uncheckReset () {
+      this.reset = false
     }
   }
 }
@@ -44,8 +55,8 @@ export default {
 <style lang="sass">
     .pe-config
         display: flex
-        flex-wrap: wrap
-        width: 12em
+        flex-direction: column
+        align-items: flex-start
 
         &__label
             margin-left: 1em

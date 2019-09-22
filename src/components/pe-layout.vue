@@ -2,9 +2,10 @@
     .pe-layout
         pe-pixel(v-for="(pixel, index) in totalPixels",
             :key="`pe-pixel-${index}`",
-            :color="pixelArray[index]",
+            :color="color",
             :pixelSide="pixelSide",
-            @click.native="setColor(index)")
+            :reset="reset",
+            @pixel-reset="resetLayout")
 </template>
 
 <script>
@@ -27,27 +28,23 @@ export default {
     cols: {
       type: Number,
       default: 10
-    }
+    },
+    reset: Boolean
   },
   data () {
     return {
-      pixelArray: []
+      pixelsResets: 0
     }
   },
   watch: {
     pixelSide () {
       this.calculateLayoutWidth()
-      this.setPixelArray()
     },
     rows () {
       this.calculateLayoutWidth()
-      this.resetPixelArray()
-      this.setPixelArray()
     },
     cols () {
       this.calculateLayoutWidth()
-      this.resetPixelArray()
-      this.setPixelArray()
     }
   },
   computed: {
@@ -60,18 +57,15 @@ export default {
       const width = this.cols * this.pixelSide
       this.$el.style.setProperty('--layout-width', `${width}em`)
     },
-    setColor (index) {
-      this.pixelArray.splice(index, 1, this.color)
-    },
-    setPixelArray () {
-      this.pixelArray.length = this.totalPixels
-    },
-    resetPixelArray () {
-      this.pixelArray = []
+    resetLayout () {
+      this.pixelsResets++
+      if (this.pixelsResets === this.totalPixels) {
+        this.pixelsResets = 0
+        this.$emit('layout-reset')
+      }
     }
   },
   mounted () {
-    this.setPixelArray()
     this.calculateLayoutWidth()
   }
 }

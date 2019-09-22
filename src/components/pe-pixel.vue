@@ -1,5 +1,5 @@
 <template lang="pug">
-    .pe-pixel
+    .pe-pixel(@click="setPixelColor(color)")
 </template>
 
 <script>
@@ -10,22 +10,32 @@ export default {
     pixelSide: {
       type: Number,
       default: 1
-    }
+    },
+    reset: Boolean
   },
   watch: {
     pixelSide () {
       this.setPixelSide()
     },
-    color () {
-      this.setPixelColor()
+    reset (newValue) {
+      if (newValue) {
+        this.setPixelColor('#ffffff')
+        this.$emit('pixel-reset')
+      }
+    }
+  },
+  data () {
+    return {
+      actualColor: ''
     }
   },
   methods: {
     setPixelSide () {
       this.$el.style.setProperty('--pixel-side', `${this.pixelSide}em`)
     },
-    setPixelColor () {
-      this.$el.style.setProperty('--pixel-color', `${this.color}`)
+    setPixelColor (color) {
+      this.actualColor = color
+      this.$el.style.setProperty('--pixel-color', `${this.actualColor}`)
     }
   },
   mounted () {
